@@ -1,0 +1,57 @@
+name: Terraform CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: Terraform Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Step 3: Run terraform init for each folder
+      - name: Terraform Init (day1)
+        run: |
+          cd assignment1
+          terraform init
+
+      - name: Terraform Init (day2)
+        run: |
+          cd assignment2
+          terraform init
+
+      - name: Terraform Init (day3)
+        run: |
+          cd assignment3
+          terraform init
+
+      - name: Terraform Init (day4)
+        run: |
+          cd assignment4
+          terraform init
+
+      # Step 4: Format check
+      - name: Terraform Format
+        run: terraform fmt -check -recursive
+
+      # Step 5: Validate configs
+      - name: Terraform Validate (day4)
+        run: |
+          cd assignment4
+          terraform validate
+
+      # Step 6: Plan (important)
+      - name: Terraform Plan (day4)
+        run: |
+          cd assignment4
+          terraform plan
